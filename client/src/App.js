@@ -8,12 +8,13 @@ import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { COLORS } from "../src/constants";
 import { createGlobalStyle } from "styled-components";
+import Sidebar from './Components/Sidebar'
 
 const App = () => {
   return (
     <>
       <GlobalStyle />
-
+      <Sidebar />
       <Router>
         <Switch>
           <Route exact path="/">
