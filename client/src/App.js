@@ -8,37 +8,51 @@ import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { COLORS } from "../src/constants";
 import { createGlobalStyle } from "styled-components";
-import Sidebar from './Components/Sidebar'
+import Sidebar from "./Components/Sidebar";
+import CurrentUserProvider from "./Components/CurrentUserContext";
 
 const App = () => {
+  console.log("test");
   return (
-    <>
-      <GlobalStyle />
-      <Sidebar />
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <HomeFeed />
-          </Route>
-          <Route path="/notifications">
-            <Notifications />
-          </Route>
-          <Route path="/bookmarks">
-            <Bookmarks />
-          </Route>
-          <Route path="/tweet/:tweetId">
-            <TweetDetails />
-          </Route>
-          <Route path="/:profileId">
-            <Profile />
-          </Route>
-        </Switch>
-      </Router>
-    </>
+    <CurrentUserProvider>
+      <Wrapper>
+        <GlobalStyle />
+        <Router>
+          <Sidebar />
+          <Div>
+            <Switch>
+              <Route exact path="/">
+                <HomeFeed />
+              </Route>
+              <Route path="/notifications">
+                <Notifications />
+              </Route>
+              <Route path="/bookmarks">
+                <Bookmarks />
+              </Route>
+              <Route path="/tweet/:tweetId">
+                <TweetDetails />
+              </Route>
+              <Route path="/:profileId">
+                <Profile />
+              </Route>
+            </Switch>
+          </Div>
+        </Router>
+      </Wrapper>
+    </CurrentUserProvider>
   );
 };
 
 export default App;
+
+const Wrapper = styled.div`
+  display: flex;
+`;
+
+const Div = styled.div`
+  margin: 15px 0 0 15px;
+`;
 
 const GlobalStyle = createGlobalStyle`
 /* Primary color set in constants.js */

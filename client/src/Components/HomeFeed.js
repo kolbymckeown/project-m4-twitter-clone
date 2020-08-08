@@ -1,12 +1,21 @@
-import React from 'react';
-import Sidebar from './Sidebar'
+import React from "react";
+import Sidebar from "./Sidebar";
+import { CurrentUserContext } from "./CurrentUserContext";
 
 const HomeFeed = () => {
-    return (
+  const { profile } = React.useContext(CurrentUserContext);
+  return (
+    <>
+      {profile ? (
         <div>
-            Home Feed
+          {console.log(profile)}
+          {profile.bio}
         </div>
-    )
-}
+      ) : (
+        <div>Loading...</div>
+      )}
+    </>
+  );
+};
 
 export default HomeFeed;
