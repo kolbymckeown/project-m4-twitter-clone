@@ -19,7 +19,7 @@ const Sidebar = () => {
       <NavigationLink exact to="/">
         <RiHome3Line /> Home
       </NavigationLink>
-      <NavigationLink to="/person/abc">
+      <NavigationLink to="/profile">
         <MdPerson /> Profile
       </NavigationLink>
       <NavigationLink to="/notifications">
@@ -56,6 +56,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 50px;
+  padding-right: 30px;
   width: 25%;
   height: 100vh;
   padding-left: 50px;

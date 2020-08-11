@@ -15,7 +15,6 @@ const CurrentUserProvider = ({ children }) => {
         });
     }, []);
 
-
     return (
         <CurrentUserContext.Provider value={{ profile }}>
         {children}
@@ -23,6 +22,6 @@ const CurrentUserProvider = ({ children }) => {
 
         // fetch user data
     );
-    };
+};
 
 export default CurrentUserProvider;

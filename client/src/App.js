@@ -12,7 +12,6 @@ import Sidebar from "./Components/Sidebar";
 import CurrentUserProvider from "./Components/CurrentUserContext";
 
 const App = () => {
-  console.log("test");
   return (
     <CurrentUserProvider>
       <Wrapper>
@@ -51,7 +50,7 @@ const Wrapper = styled.div`
 `;
 
 const Div = styled.div`
-  margin: 15px 0 0 15px;
+  margin: 15px 25% 0 15px;
 `;
 
 const GlobalStyle = createGlobalStyle`
