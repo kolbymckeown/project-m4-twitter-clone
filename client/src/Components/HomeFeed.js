@@ -6,6 +6,7 @@ import { BsChat } from "react-icons/bs";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { AiOutlineHeart } from "react-icons/ai";
 import { AiOutlineUpload } from "react-icons/ai";
+import { COLORS } from '../constants';
 class HomeFeed extends React.Component {
   constructor(props) {
     super(props);
@@ -35,6 +36,7 @@ class HomeFeed extends React.Component {
     if (this.state.tweets) {
       var tweetStatuses = Object.entries(this.state.tweets.tweetsById).map(
         ([tweet, value]) => {
+          const image = value.media[0];
           console.log(value);
           return (
             <Li>
@@ -52,7 +54,7 @@ class HomeFeed extends React.Component {
                   </UserInfo>
                 </Top>
                 <TweetDetails>
-                  {value.status},{/* <img src={value.media[0].url} /> */}
+                  {value.status} <img src={value.media[0] /* <img src={value.media[0].url} /> */} />
                   {/* Get IMG to render?... */}
                   <TweetFooter>
                     <BsChat /> <AiOutlineRetweet /> <AiOutlineHeart />{" "}
@@ -85,7 +87,10 @@ class HomeFeed extends React.Component {
     }
     return (
       <Wrap>
-        {/* Create Tweet Component goes here? */}
+        <TweetArea>
+          <TweetInput placeholder="Meow!"></TweetInput>
+          <Submit>Meow!</Submit>
+        </TweetArea>
         <Ul>
           {this.state.tweets && tweetStatuses}
           {/* {this.state.tweets && this.state.tweets.tweetsById["1209788222324256768"].status} */}
@@ -96,6 +101,31 @@ class HomeFeed extends React.Component {
 }
 
 export default HomeFeed;
+
+const TweetArea = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+  margin-top: 25px;
+`;
+
+const TweetInput = styled.textarea`
+  width: 75%;
+  height: 75px;
+  margin-left: 25%;
+  resize: none;
+  font-family: Arial, Helvetica, sans-serif;
+`;
+
+const Submit = styled.button`
+  color: white;
+  background-color: ${COLORS.primary};
+  width: 75px;
+  height: 45px;
+  border-radius: 5px;
+  margin-left: 5px;
+`;
 
 const UserInfo = styled.div`
   color: grey;
