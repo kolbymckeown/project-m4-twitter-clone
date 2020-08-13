@@ -6,38 +6,80 @@ import { BsChat } from "react-icons/bs";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { AiOutlineHeart } from "react-icons/ai";
 import { AiOutlineUpload } from "react-icons/ai";
-import { COLORS } from '../constants';
+import { COLORS } from "../constants";
+
 class HomeFeed extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       tweets: null,
+      body: "",
+      user: {},
     };
   }
+
+  newTweet = () => {
+    const postTweet = { status: this.state.body };
+    fetch("/api/tweet", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(postTweet),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const tweetIds = this.state.tweets.tweetIds;
+        const tweetsById = this.state.tweets.tweetsById;
+        tweetsById[data.tweet.id] = { ...data.tweet, author: this.state.user };
+        tweetIds.unshift(data.tweet.id);
+        // console.log(this.state.tweets.tweetIds)
+        this.setState({ tweets: { tweetIds, tweetsById } });
+        // console.log(data);
+        /* Update TweetById and TweetIds with new Data */
+        // console.log(this.state.tweets)
+        // this.setState({
+        //   tweets: { tweetIds: [data.tweet.id, ...this.state.tweets.tweetIds] },
+        // });
+      })
+
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  handleBodyChange = (e) => {
+    this.setState({ body: e.target.value });
+  };
+
   componentDidMount() {
     fetch("/api/me/home-feed")
       .then((res) => {
-        console.log(res);
         return res.json();
       })
       .then((newTweets) => {
-        console.log(newTweets);
-        this.setState({ tweets: newTweets });
+        // console.log(newTweets.tweetsById['1209791721099411456r1']);
+        this.setState({
+          tweets: newTweets,
+          user:
+            newTweets.tweetsById[Object.keys(newTweets.tweetsById)[0]].author,
+        });
       });
   }
 
   loop = () => {
     Object.entries(this.state.tweets.tweetsById).map(([tweet, value]) => {
-      console.log(value.status);
+      // console.log(value.status);
       return <span>{value.status}</span>;
     });
   };
+
   render() {
+    console.log(this.state);
     if (this.state.tweets) {
       var tweetStatuses = Object.entries(this.state.tweets.tweetsById).map(
         ([tweet, value]) => {
           const image = value.media[0];
-          console.log(value);
           return (
             <Li>
               <div>
@@ -54,8 +96,10 @@ class HomeFeed extends React.Component {
                   </UserInfo>
                 </Top>
                 <TweetDetails>
-                  {value.status} <img src={value.media[0] /* <img src={value.media[0].url} /> */} />
-                  {/* Get IMG to render?... */}
+                  {value.status}
+                  <div styled={{ marginLeft: "50px" }}>
+                    {value.media[0] && <TweetImage src={value.media[0].url} />}
+                  </div>
                   <TweetFooter>
                     <BsChat /> <AiOutlineRetweet /> <AiOutlineHeart />{" "}
                     <AiOutlineUpload />
@@ -64,11 +108,6 @@ class HomeFeed extends React.Component {
               </div>
             </Li>
           );
-          // value.numLikes
-          // value.author.avatarSrc
-          // value.author.handle
-          // value.author.displayName
-          // value.author...
         }
       );
     } else {
@@ -85,11 +124,17 @@ class HomeFeed extends React.Component {
         </div>
       );
     }
+
     return (
       <Wrap>
         <TweetArea>
-          <TweetInput placeholder="Meow!"></TweetInput>
-          <Submit>Meow!</Submit>
+          <TweetInput
+            value={this.state.body}
+            onChange={this.handleBodyChange}
+            placeholder="Meow!"
+          ></TweetInput>
+          <Submit onClick={this.newTweet}>Meow!</Submit>
+          {/* PUT to same tweets UL */}
         </TweetArea>
         <Ul>
           {this.state.tweets && tweetStatuses}
@@ -116,6 +161,12 @@ const TweetInput = styled.textarea`
   margin-left: 25%;
   resize: none;
   font-family: Arial, Helvetica, sans-serif;
+`;
+
+const TweetImage = styled.img`
+  height: 225px;
+  margin-top: 5px;
+  border-radius: 10px;
 `;
 
 const Submit = styled.button`

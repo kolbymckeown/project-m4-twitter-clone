@@ -11,18 +11,18 @@ const SingleTweet = () => {
     <Wrapper>
       <Head>
         <HeadAvatar>
-          <AvatarImg src={value.author.avatarSrc} />
+          <AvatarImg src={tweet.author.avatarSrc} />
         </HeadAvatar>
         <HeadNames>
-          <DispName>{value.author.displayName}</DispName>{" "}
-          <DispHandle>@{value.author.handle}</DispHandle> <BsDot />
+          <DispName>{tweet.author.displayName}</DispName>{" "}
+          <DispHandle>@{tweet.author.handle}</DispHandle> <BsDot />
         </HeadNames>
       </Head>
       <TweetBody>
-        <Tweet>{value.status}</Tweet>
-        <TweetImage src={value.media[0]} />
+        <Tweet>{tweet.status}</Tweet>
+        <TweetImage src={tweet.media[0]} />
         <Timestamp>
-        {moment(value.timestamp).format("MMM Do")}
+        {moment(tweet.timestamp).format("MMM Do")}
         </Timestamp>
       </TweetBody>
       <TweetFooter>
