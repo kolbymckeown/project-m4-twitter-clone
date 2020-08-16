@@ -77,7 +77,7 @@ class HomeFeed extends React.Component {
   render() {
     console.log(this.state);
     if (this.state.tweets) {
-      var tweetStatuses = Object.entries(this.state.tweets.tweetsById).map(
+      var tweetStatuses = Object.entries(this.state.tweets.tweetsById).reverse().map(
         ([tweet, value]) => {
           const image = value.media[0];
           return (
