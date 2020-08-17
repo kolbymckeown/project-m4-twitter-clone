@@ -20,10 +20,8 @@ const SingleTweet = () => {
       </Head>
       <TweetBody>
         <Tweet>{tweet.status}</Tweet>
-        <TweetImage src={tweet.media[0]} />
-        <Timestamp>
-        {moment(tweet.timestamp).format("MMM Do")}
-        </Timestamp>
+        {tweet.media[0] && <TweetImage src={tweet.media[0].url} />}
+        <Timestamp>{moment(tweet.timestamp).format("MMM Do")}</Timestamp>
       </TweetBody>
       <TweetFooter>
         <BsChat /> <AiOutlineRetweet /> <AiOutlineHeart /> <AiOutlineUpload />
@@ -32,7 +30,7 @@ const SingleTweet = () => {
   );
 };
 
-// QUESTION 
+// QUESTION
 
 // Outline of clicked on Tweet to expand into the above layout
 // Images not loading properly
@@ -47,7 +45,10 @@ const Head = styled.div``;
 
 const HeadAvatar = styled.div``;
 
-const AvatarImg = styled.img``;
+const AvatarImg = styled.img`
+  height: 75px;
+  border-radius: 50%;
+`;
 
 const HeadNames = styled.div``;
 

@@ -1,12 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import moment from "moment";
+import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
 import { BsDot } from "react-icons/bs";
 import { BsChat } from "react-icons/bs";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { AiOutlineHeart } from "react-icons/ai";
 import { AiOutlineUpload } from "react-icons/ai";
 import { COLORS } from "../constants";
+
 
 class HomeFeed extends React.Component {
   constructor(props) {
@@ -17,8 +19,13 @@ class HomeFeed extends React.Component {
       user: {},
     };
   }
-
+  
   newTweet = () => {
+    
+  // const { params } = useParams();
+  // const tweetId = params.tweetId;
+  // const tweetRoute = `/tweet/tweetId`
+
     const postTweet = { status: this.state.body };
     fetch("/api/tweet", {
       method: "POST",
@@ -48,6 +55,8 @@ class HomeFeed extends React.Component {
       });
   };
 
+   
+
   handleBodyChange = (e) => {
     this.setState({ body: e.target.value });
   };
@@ -74,42 +83,50 @@ class HomeFeed extends React.Component {
     });
   };
 
+ 
+
   render() {
     console.log(this.state);
+    const tweetRoute = `/tweet/1215996774806106114` // Placeholder Tweet ID to style
+
     if (this.state.tweets) {
-      var tweetStatuses = Object.entries(this.state.tweets.tweetsById).reverse().map(
-        ([tweet, value]) => {
+      var tweetStatuses = Object.entries(this.state.tweets.tweetsById)
+        .reverse()
+        .map(([tweet, value]) => {
           const image = value.media[0];
           return (
-            <Li>
-              <div>
-                <Top>
-                  <div>
-                    <AvatarImg src={value.author.avatarSrc} />
-                  </div>
-                  <UserInfo>
-                    <DispName>{value.author.displayName}</DispName>{" "}
-                    <DispHandle>@{value.author.handle}</DispHandle> <BsDot />
-                    <DispTime>
-                      {moment(value.timestamp).format("MMM Do")}
-                    </DispTime>
-                  </UserInfo>
-                </Top>
-                <TweetDetails>
-                  {value.status}
-                  <div styled={{ marginLeft: "50px" }}>
-                    {value.media[0] && <TweetImage src={value.media[0].url} />}
-                  </div>
-                  <TweetFooter>
-                    <BsChat /> <AiOutlineRetweet /> <AiOutlineHeart />{" "}
-                    <AiOutlineUpload />
-                  </TweetFooter>
-                </TweetDetails>
-              </div>
-            </Li>
+            <Link to={tweetRoute} style={{ textDecoration: 'none' }}>
+              <Li>
+                <div>
+                  <Top>
+                    <div>
+                      <AvatarImg src={value.author.avatarSrc} />
+                    </div>
+                    <UserInfo>
+                      <DispName>{value.author.displayName}</DispName>{" "}
+                      <DispHandle>@{value.author.handle}</DispHandle> <BsDot />
+                      <DispTime>
+                        {moment(value.timestamp).format("MMM Do")}
+                      </DispTime>
+                    </UserInfo>
+                  </Top>
+                  <TweetDetails>
+                    {value.status}
+                    <div styled={{ marginLeft: "50px" }}>
+                      {value.media[0] && (
+                        <TweetImage src={value.media[0].url} />
+                      )}
+                    </div>
+                    <TweetFooter>
+                      <BsChat /> <AiOutlineRetweet /> <AiOutlineHeart />{" "}
+                      <AiOutlineUpload />
+                    </TweetFooter>
+                  </TweetDetails>
+                </div>
+              </Li>
+            </Link>
           );
-        }
-      );
+        });
     } else {
       return (
         <div>
@@ -180,6 +197,7 @@ const Submit = styled.button`
 
 const UserInfo = styled.div`
   color: grey;
+  margin-left: 10px;
 `;
 
 const TweetDetails = styled.div`

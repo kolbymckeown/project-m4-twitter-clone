@@ -9,34 +9,35 @@ import { BsDot } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 
 const TweetDetails = () => {
-    const [tweet, setTweet] = React.useState(null)
-    const params = useParams();
-    React.useEffect(async () => {
+  const [tweet, setTweet] = React.useState(null);
+  const params = useParams();
+  React.useEffect(async () => {
     const tweetId = params.tweetId;
     const response = await fetch(`/api/tweet/${tweetId}`);
     const data = await response.json();
     setTweet(data.tweet);
-    }, []);
-    if (!tweet) {
-        return <div>Loading</div>
-    } 
-    return (
+  }, []);
+  if (!tweet) {
+    return <div>Loading</div>;
+  }
+  return (
     <Wrapper>
       <Head>
         <HeadAvatar>
+          <div>
           <AvatarImg src={tweet.author.avatarSrc} />
+          </div>
+          <HeadNames>
+            <DispName>{tweet.author.displayName}</DispName>{" "}
+            <DispHandle>@{tweet.author.handle}</DispHandle>
+          </HeadNames>
         </HeadAvatar>
-        <HeadNames>
-          <DispName>{tweet.author.displayName}</DispName>{" "}
-          <DispHandle>@{tweet.author.handle}</DispHandle> <BsDot />
-        </HeadNames>
       </Head>
       <TweetBody>
         <Tweet>{tweet.status}</Tweet>
-        <TweetImage src={tweet.media[0]} />
-        <Timestamp>
-        {moment(tweet.timestamp).format("MMM Do")}
-        </Timestamp>
+        {tweet.media[0] && <TweetImage src={tweet.media[0].url} />}
+
+        <Timestamp>{moment(tweet.timestamp).format("MMM Do")}</Timestamp>
       </TweetBody>
       <TweetFooter>
         <BsChat /> <AiOutlineRetweet /> <AiOutlineHeart /> <AiOutlineUpload />
@@ -45,32 +46,61 @@ const TweetDetails = () => {
     // <>
     //     <div>Tweet Details</div>
     // </>
-);
-}
+  );
+};
 
 export default TweetDetails;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  margin-top: 20px;
+  margin-left: 20px;
+`;
 
 const Head = styled.div``;
 
-const HeadAvatar = styled.div``;
+const HeadAvatar = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
-const AvatarImg = styled.img``;
+const AvatarImg = styled.img`
+  height: 75px;
+  border-radius: 50%;
+`;
 
-const HeadNames = styled.div``;
+const HeadNames = styled.div`
+  margin-left: 20px;
+`;
 
-const DispName = styled.p``;
+const DispName = styled.p`
+  color: black;
+  font-size: 25px;
+`;
 
-const DispHandle = styled.p``;
+const DispHandle = styled.p`
+  color: grey;
+  font-size: 18px;
+`;
 
 const TweetBody = styled.div``;
 
-const Tweet = styled.p``;
+const Tweet = styled.p`
+  color: black;
+  font-size: 28px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+`;
 
-const TweetImage = styled.img``;
+const TweetImage = styled.img`
+  height: 350px;
+  border-radius: 15px;
+`;
 
-const Timestamp = styled.p``;
+const Timestamp = styled.p`
+  color: grey;
+  margin-top: 15px;
+  margin-bottom: 20px;
+`;
 
 const TweetFooter = styled.div`
   display: flex;
