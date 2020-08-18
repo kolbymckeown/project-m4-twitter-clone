@@ -83,11 +83,9 @@ class HomeFeed extends React.Component {
     });
   };
 
- 
 
   render() {
     console.log(this.state);
-    const tweetRoute = `/tweet/1215996774806106114` // Placeholder Tweet ID to style
 
     if (this.state.tweets) {
       var tweetStatuses = Object.entries(this.state.tweets.tweetsById)
@@ -95,7 +93,7 @@ class HomeFeed extends React.Component {
         .map(([tweet, value]) => {
           const image = value.media[0];
           return (
-            <Link to={tweetRoute} style={{ textDecoration: 'none' }}>
+            <Link to={`/tweet/${tweet}`} style={{ textDecoration: 'none' }}>
               <Li>
                 <div>
                   <Top>

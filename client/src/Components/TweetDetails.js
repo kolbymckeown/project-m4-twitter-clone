@@ -11,11 +11,13 @@ import { useParams } from "react-router-dom";
 const TweetDetails = () => {
   const [tweet, setTweet] = React.useState(null);
   const params = useParams();
-  React.useEffect(async () => {
+  React.useEffect(() => {
     const tweetId = params.tweetId;
-    const response = await fetch(`/api/tweet/${tweetId}`);
-    const data = await response.json();
-    setTweet(data.tweet);
+    fetch(`/api/tweet/${tweetId}`)
+    .then(response => response.json())
+    .then(data => setTweet(data.tweet))
+    
+    return () => {}
   }, []);
   if (!tweet) {
     return <div>Loading</div>;
