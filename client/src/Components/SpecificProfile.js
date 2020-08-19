@@ -3,14 +3,25 @@ import styled from "styled-components";
 import { COLORS } from "../constants";
 import moment from "moment";
 
-
-import { CurrentUserContext } from "./CurrentUserContext";
+import { useParams } from "react-router-dom";
 import { GoLocation } from "react-icons/go";
 import { FaRegCalendarAlt } from "react-icons/fa";
 
-const Profile = () => {
-  const { profile } = React.useContext(CurrentUserContext);
-  // FETCH USER TWEETS AND RENDER AT BOTTOM
+const SpecificProfile = () => {
+  const [profile, setProfile] = React.useState(null);
+  const params = useParams();
+  console.log(params);
+  React.useEffect(() => {
+    fetch(`/api/${params.profileId}/profile`)
+    // FETCH USER TWEETS AND RENDER AT BOTTOM
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((handleProfile) => {
+        setProfile(handleProfile.profile);
+      });
+  }, []);
   return (
     <Wrapper>
       {profile ? (
@@ -52,7 +63,7 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default SpecificProfile;
 
 const ImageDiv = styled.div`
   position: relative;
@@ -62,6 +73,8 @@ const BannerImg = styled.img`
   position: absolute;
   top: 0;
   left: 0;
+  height: 400px;
+  width: 100%;
   border-radius: 15px;
 `;
 
@@ -71,6 +84,7 @@ const AvatarImg = styled.img`
   margin-left: 25px;
   position: relative;
   top: 350px;
+  height: 150px;
 `;
 
 const BodyDiv = styled.div`
@@ -127,7 +141,3 @@ const ProfileHandle = styled.p`
 const Bio = styled.span`
   color: black;
 `;
-
-// isBeingFollowedByYou: false
-// isFollowingYou: false
-// numLikes: 1

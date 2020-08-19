@@ -91,7 +91,8 @@ class HomeFeed extends React.Component {
       var tweetStatuses = Object.entries(this.state.tweets.tweetsById)
         .reverse()
         .map(([tweet, value]) => {
-          const image = value.media[0];
+          console.log(value);
+          const profileId = value.author.handle;
           return (
             <Link to={`/tweet/${tweet}`} style={{ textDecoration: 'none' }}>
               <Li>
@@ -100,6 +101,8 @@ class HomeFeed extends React.Component {
                     <div>
                       <AvatarImg src={value.author.avatarSrc} />
                     </div>
+                    {/* Links to specific Profiles */}
+                    <Link to={`/${profileId}`} style={{ textDecoration: 'none' }}>
                     <UserInfo>
                       <DispName>{value.author.displayName}</DispName>{" "}
                       <DispHandle>@{value.author.handle}</DispHandle> <BsDot />
@@ -107,6 +110,7 @@ class HomeFeed extends React.Component {
                         {moment(value.timestamp).format("MMM Do")}
                       </DispTime>
                     </UserInfo>
+                    </Link>
                   </Top>
                   <TweetDetails>
                     {value.status}

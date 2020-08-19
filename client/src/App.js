@@ -4,6 +4,7 @@ import HomeFeed from "./Components/HomeFeed";
 import Notifications from "./Components/Notifications";
 import Profile from "./Components/Profile";
 import TweetDetails from "./Components/TweetDetails";
+import SpecificProfile from './Components/SpecificProfile';
 import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { COLORS } from "../src/constants";
@@ -32,8 +33,11 @@ const App = () => {
               <Route path="/tweet/:tweetId">
                 <TweetDetails />
               </Route>
-              <Route path="/:profileId">
+              <Route exact path="/profile">
                 <Profile />
+              </Route>
+              <Route path="/:profileId">
+                <SpecificProfile />
               </Route>
             </Switch>
           </Div>
