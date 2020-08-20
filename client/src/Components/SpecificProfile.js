@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { COLORS } from "../constants";
 import moment from "moment";
+import Feed from './Feed';  
 
 import { useParams } from "react-router-dom";
 import { GoLocation } from "react-icons/go";
@@ -9,11 +10,11 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 
 const SpecificProfile = () => {
   const [profile, setProfile] = React.useState(null);
+  const [userTweets, setUserTweets] = React.useState(null);
   const params = useParams();
   console.log(params);
   React.useEffect(() => {
     fetch(`/api/${params.profileId}/profile`)
-    // FETCH USER TWEETS AND RENDER AT BOTTOM
       .then((res) => {
         console.log(res);
         return res.json();
@@ -22,6 +23,17 @@ const SpecificProfile = () => {
         setProfile(handleProfile.profile);
       });
   }, []);
+
+  React.useEffect(() => {
+    fetch(`/api/${params.profileId}/feed`)
+    .then((res) => {
+      console.log(res);
+      return res.json();
+    })
+    .then((handleUserTweet) => {
+      setUserTweets(handleUserTweet)
+    })
+  }, [])
   return (
     <Wrapper>
       {profile ? (
@@ -54,7 +66,9 @@ const SpecificProfile = () => {
             <Button>Media</Button>
             <Button>Likes</Button>
           </Nav>
+          
           {/* Users Tweets */}
+          {userTweets ? (<Feed tweets={userTweets.tweetsById}/>) : (<div>Loading</div>)}
         </div>
       ) : (
         <div>Loading...</div>
