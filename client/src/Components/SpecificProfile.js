@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { COLORS } from "../constants";
 import moment from "moment";
-import Feed from './Feed';  
+import Feed from "./Feed";
 
 import { useParams } from "react-router-dom";
 import { GoLocation } from "react-icons/go";
@@ -26,14 +26,14 @@ const SpecificProfile = () => {
 
   React.useEffect(() => {
     fetch(`/api/${params.profileId}/feed`)
-    .then((res) => {
-      console.log(res);
-      return res.json();
-    })
-    .then((handleUserTweet) => {
-      setUserTweets(handleUserTweet)
-    })
-  }, [])
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((handleUserTweet) => {
+        setUserTweets(handleUserTweet);
+      });
+  }, []);
   return (
     <Wrapper>
       {profile ? (
@@ -41,7 +41,6 @@ const SpecificProfile = () => {
           {console.log(profile)}
           <ImageDiv>
             <BannerImg src={profile.bannerSrc} />
-            <AvatarImg src={profile.avatarSrc} />
           </ImageDiv>
           <BodyDiv>
             <ProfileName>{profile.displayName}</ProfileName>
@@ -51,7 +50,8 @@ const SpecificProfile = () => {
             <div>
               <Location>
                 <GoLocation /> {profile.location}&ensp;&ensp;
-                <FaRegCalendarAlt /> {moment(profile.joined).format('MMM Do YYYY')}
+                <FaRegCalendarAlt />{" "}
+                {moment(profile.joined).format("MMM Do YYYY")}
               </Location>
             </div>
             <div>
@@ -66,9 +66,15 @@ const SpecificProfile = () => {
             <Button>Media</Button>
             <Button>Likes</Button>
           </Nav>
-          
+
           {/* Users Tweets */}
-          {userTweets ? (<Feed tweets={userTweets.tweetsById}/>) : (<div>Loading</div>)}
+          {userTweets ? (
+            <FeedWrap>
+              <Feed tweets={userTweets.tweetsById} />
+            </FeedWrap>
+          ) : (
+            <div>Loading</div>
+          )}
         </div>
       ) : (
         <div>Loading...</div>
@@ -83,11 +89,14 @@ const ImageDiv = styled.div`
   position: relative;
 `;
 
+const FeedWrap = styled.div`
+  margin-top: 300px;
+`;
+
 const BannerImg = styled.img`
   position: absolute;
   top: 0;
   left: 0;
-  height: 400px;
   width: 100%;
   border-radius: 15px;
 `;
@@ -103,7 +112,7 @@ const AvatarImg = styled.img`
 
 const BodyDiv = styled.div`
   position: relative;
-  top: 350px;
+  top: 300px;
 `;
 
 const Nav = styled.div`
@@ -111,7 +120,7 @@ const Nav = styled.div`
   flex-direction: row;
   justify-content: space-around;
   position: relative;
-  top: 350px;
+  top: 300px;
   margin-top: 15px;
 `;
 
@@ -132,6 +141,7 @@ const Button = styled.a`
 
 const Wrapper = styled.div`
   line-height: 1.5;
+  display: flex;
 `;
 
 const Location = styled.span`
