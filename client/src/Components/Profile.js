@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { COLORS } from "../constants";
 import moment from "moment";
+import { useParams } from "react-router-dom";
+import Feed from "./Feed";
 
 
 import { CurrentUserContext } from "./CurrentUserContext";
@@ -10,6 +12,20 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 
 const Profile = () => {
   const { profile } = React.useContext(CurrentUserContext);
+  const [userTweets, setUserTweets] = React.useState(null);
+  const params = useParams();
+  // console.log(params);
+  React.useEffect(() => {
+    fetch(`/api/treasurymog/feed`)
+    // Make Treasurymog dynamic to currently logged in user
+      .then((res) => {
+        return res.json();
+      })
+      .then((handleUserTweet) => {
+        console.log(handleUserTweet)
+        setUserTweets(handleUserTweet);
+      });
+  }, []);
   // FETCH USER TWEETS AND RENDER AT BOTTOM
   return (
     <Wrapper>
@@ -43,7 +59,14 @@ const Profile = () => {
             <Button>Media</Button>
             <Button>Likes</Button>
           </Nav>
-          {/* Users Tweets */}
+          {userTweets ? (
+            <FeedWrap>
+              <Feed tweets={userTweets.tweetsById} />
+            </FeedWrap>
+          ) : (
+            <div>Loading</div>
+          )}
+          
         </div>
       ) : (
         <div>Loading...</div>
@@ -56,6 +79,10 @@ export default Profile;
 
 const ImageDiv = styled.div`
   position: relative;
+`;
+
+const FeedWrap = styled.div`
+  margin-top: 375px;
 `;
 
 const BannerImg = styled.img`

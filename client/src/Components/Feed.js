@@ -17,7 +17,7 @@ const Feed = ({tweets}) => {
       const profileId = value.author.handle;
       return (
         <Link to={`/tweet/${tweet}`} style={{ textDecoration: 'none' }}>
-          <Li>
+          <Li style={{ listStyleType: 'none' }}>
             <div>
               <Top>
                 <div>

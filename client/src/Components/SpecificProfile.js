@@ -90,14 +90,14 @@ const ImageDiv = styled.div`
 `;
 
 const FeedWrap = styled.div`
-  margin-top: 300px;
+  margin-top: 325px;
 `;
 
 const BannerImg = styled.img`
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 75%;
   border-radius: 15px;
 `;
 
@@ -113,6 +113,7 @@ const AvatarImg = styled.img`
 const BodyDiv = styled.div`
   position: relative;
   top: 300px;
+  margin-top: 105px;
 `;
 
 const Nav = styled.div`

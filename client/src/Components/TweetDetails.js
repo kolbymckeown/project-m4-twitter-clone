@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 
 const TweetDetails = () => {
   const [tweet, setTweet] = React.useState(null);
+  const [isClick, setClick] = useState(false);
   const params = useParams();
   React.useEffect(() => {
     const tweetId = params.tweetId;
